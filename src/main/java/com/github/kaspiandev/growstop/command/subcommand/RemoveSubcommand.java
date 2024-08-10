@@ -26,18 +26,16 @@ public class RemoveSubcommand extends SubCommand {
         }
 
         try {
-            Material blockType = Material.valueOf(args[1]);
+            Material blockType = Material.valueOf(args[1].toUpperCase());
             if (plugin.isSupported(blockType)) {
-                return;
+                plugin.removeSupportedBlock(blockType);
+                sender.spigot().sendMessage(ColorUtil.component(plugin.getConfig().getString("message.removed")));
             } else {
                 sender.spigot().sendMessage(ColorUtil.component(plugin.getConfig().getString("message.cannot-remove")));
             }
         } catch (IllegalArgumentException ex) {
             sender.spigot().sendMessage(ColorUtil.component(plugin.getConfig().getString("message.invalid-block")));
         }
-        plugin.reloadConfig();
-        plugin.loadBlocks();
-
     }
 
     @Override

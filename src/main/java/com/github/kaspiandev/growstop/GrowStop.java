@@ -12,12 +12,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public final class GrowStop extends JavaPlugin {
 
     private List<Material> supportedBlocks;
     private final Supplier<List<String>> blockNameCache = Suppliers.memoizeWithExpiration(
-            () -> getSupportedBlocks().stream().map(Material::name).toList(),
+            () -> getSupportedBlocks().stream()
+                                      .map(Material::name)
+                                      .map(String::toLowerCase)
+                                      .toList(),
             1,
             TimeUnit.MINUTES);
 
@@ -53,6 +57,29 @@ public final class GrowStop extends JavaPlugin {
 
     public List<String> getBlockNameCache() {
         return blockNameCache.get();
+    }
+
+    public void removeSupportedBlock(Material blockType) {
+        if (!supportedBlocks.contains(blockType)) return;
+
+        supportedBlocks = supportedBlocks.stream()
+                                         .filter((type) -> type != blockType)
+                                         .toList();
+        getConfig().set("supported-blocks", supportedBlocks.stream()
+                                                           .map(Material::name)
+                                                           .toList());
+        saveConfig();
+    }
+
+    public void addSupportedBlock(Material blockType) {
+        if (supportedBlocks.contains(blockType)) return;
+
+        supportedBlocks = Stream.concat(supportedBlocks.stream(), Stream.of(blockType))
+                                .toList();
+        getConfig().set("supported-blocks", supportedBlocks.stream()
+                                                           .map(Material::name)
+                                                           .toList());
+        saveConfig();
     }
 
     public boolean isSupported(Material blockType) {
