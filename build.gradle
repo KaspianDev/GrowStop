@@ -33,7 +33,7 @@ shadowJar {
     setArchiveClassifier(null)
 
     relocate "com.jeff_media.customblockdata", "com.github.kaspiandev.growstop.customblockdata"
-    relocate "de.themoep.minedown", "com.github.kaspiandev.growstop.customblockdata"
+    relocate "de.themoep.minedown", "com.github.kaspiandev.growstop.minedown"
 }
 
 def targetJavaVersion = 17
