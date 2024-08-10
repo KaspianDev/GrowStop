@@ -22,8 +22,8 @@ public final class GrowStop extends JavaPlugin {
                                       .map(Material::name)
                                       .map(String::toLowerCase)
                                       .toList(),
-            1,
-            TimeUnit.MINUTES);
+            30,
+            TimeUnit.SECONDS);
 
     @Override
     public void onEnable() {

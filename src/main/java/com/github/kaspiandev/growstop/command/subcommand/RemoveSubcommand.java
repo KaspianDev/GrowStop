@@ -6,7 +6,9 @@ import com.github.kaspiandev.growstop.command.SubCommands;
 import com.github.kaspiandev.growstop.util.ColorUtil;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.StringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RemoveSubcommand extends SubCommand {
@@ -41,7 +43,7 @@ public class RemoveSubcommand extends SubCommand {
     @Override
     public List<String> suggestions(CommandSender sender, String[] args) {
         if (args.length == 2) {
-            return plugin.getBlockNameCache();
+            return StringUtil.copyPartialMatches(args[1], plugin.getBlockNameCache(), new ArrayList<>());
         }
         return null;
     }

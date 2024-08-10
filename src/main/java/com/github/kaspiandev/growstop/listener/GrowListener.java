@@ -62,14 +62,23 @@ public class GrowListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onSpread(BlockSpreadEvent event) {
-        CustomBlockData blockData = new CustomBlockData(event.getSource(), plugin);
-        if (blockData.getOrDefault(growStopKey, PersistentDataType.BOOLEAN, false)) event.setCancelled(true);
+        if (checkBlock(event.getSource())) event.setCancelled(true);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onGrow(BlockGrowEvent event) {
-        CustomBlockData blockData = new CustomBlockData(event.getBlock(), plugin);
-        if (blockData.getOrDefault(growStopKey, PersistentDataType.BOOLEAN, false)) event.setCancelled(true);
+        if (checkBlock(event.getBlock())) event.setCancelled(true);
+    }
+
+    private boolean checkBlock(Block block) {
+        CustomBlockData blockData = new CustomBlockData(block, plugin);
+        Material blockType = block.getType();
+        boolean hasData = blockData.getOrDefault(growStopKey, PersistentDataType.BOOLEAN, false);
+        if (hasData) {
+            if (plugin.isSupported(blockType)) return true;
+            blockData.remove(growStopKey);
+        }
+        return false;
     }
 
 }
