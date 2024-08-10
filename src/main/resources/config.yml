@@ -2,7 +2,11 @@ message:
   no-perms: "&6GrowStop &7» &cYou don't have required permissions to run this command."
   no-args: "&6GrowStop &7» &cYou have to provide arguments to run this command."
   unknown-arg: "&6GrowStop &7» &cProvided argument does not exist."
-  reloaded: "&6GrowStop &7» &caPlugin was reloaded successfully."
+  reloaded: "&6GrowStop &7» &aPlugin was reloaded successfully."
+  removed: "&6GrowStop &7» &aSuccessfully removed a block from the supported list."
+  added: "&6GrowStop &7» &aSuccessfully added the block to supported list."
+  invalid-block: "&6GrowStop &7» &cThis block does not exist."
+  cannot-remove: "&6GrowStop &7» &cThis block cannot be removed because it's not on the supported list."
 
 supported-blocks:
   - BAMBOO
