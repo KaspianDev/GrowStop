@@ -25,6 +25,8 @@ dependencies {
 }
 
 shadowJar {
+    setArchiveClassifier(null)
+
     relocate "com.jeff_media.customblockdata", "com.github.kaspiandev.customblockdata"
 }
 

@@ -1,5 +1,6 @@
 package com.github.kaspiandev.growstop;
 
+import com.github.kaspiandev.growstop.listener.GrowListener;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +21,8 @@ public final class GrowStop extends JavaPlugin {
         supportedBlocks = getConfig().getStringList("supported-blocks").stream()
                                      .map(Material::valueOf)
                                      .toList();
+
+        getServer().getPluginManager().registerEvents(new GrowListener(this), this);
     }
 
     @Override
