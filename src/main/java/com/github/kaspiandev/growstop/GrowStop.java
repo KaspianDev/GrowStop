@@ -1,8 +1,11 @@
 package com.github.kaspiandev.growstop;
 
+import com.github.kaspiandev.growstop.command.MainCommand;
+import com.github.kaspiandev.growstop.command.SubCommandRegistry;
 import com.github.kaspiandev.growstop.listener.GrowListener;
 import com.jeff_media.customblockdata.CustomBlockData;
 import org.bukkit.Material;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -18,9 +21,16 @@ public final class GrowStop extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        supportedBlocks = getConfig().getStringList("supported-blocks").stream()
-                                     .map(Material::valueOf)
-                                     .toList();
+        loadBlocks();
+
+        PluginCommand pluginCommand = getCommand("growstop");
+        if (pluginCommand != null) {
+            SubCommandRegistry subCommandRegistry = new SubCommandRegistry(this);
+            MainCommand mainCommand = new MainCommand(this, subCommandRegistry);
+
+            pluginCommand.setTabCompleter(mainCommand);
+            pluginCommand.setExecutor(mainCommand);
+        }
 
         getServer().getPluginManager().registerEvents(new GrowListener(this), this);
     }
@@ -32,6 +42,13 @@ public final class GrowStop extends JavaPlugin {
 
     public boolean isSupported(Material blockType) {
         return supportedBlocks.contains(blockType);
+    }
+
+    public void loadBlocks() {
+        supportedBlocks = getConfig().getStringList("supported-blocks").stream()
+                                     .map(Material::valueOf)
+                                     .toList();
+
     }
 
 }

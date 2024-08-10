@@ -1,3 +1,9 @@
+message:
+  no-perms: "&6GrowStop &7» &cYou don't have required permissions to run this command."
+  no-args: "&6GrowStop &7» &cYou have to provide arguments to run this command."
+  unknown-arg: "&6GrowStop &7» &cProvided argument does not exist."
+  reloaded: "&6GrowStop &7» &caPlugin was reloaded successfully."
+
 supported-blocks:
   - BAMBOO
   - VINE

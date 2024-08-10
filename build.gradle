@@ -16,18 +16,24 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        name = "minebench-repo"
+        url = "https://repo.minebench.de/"
+    }
 }
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT"
 
     implementation "com.jeff-media:custom-block-data:2.2.2"
+    implementation "de.themoep:minedown:1.7.1-SNAPSHOT"
 }
 
 shadowJar {
     setArchiveClassifier(null)
 
-    relocate "com.jeff_media.customblockdata", "com.github.kaspiandev.customblockdata"
+    relocate "com.jeff_media.customblockdata", "com.github.kaspiandev.growstop.customblockdata"
+    relocate "de.themoep.minedown", "com.github.kaspiandev.growstop.customblockdata"
 }
 
 def targetJavaVersion = 17

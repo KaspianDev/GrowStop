@@ -2,3 +2,8 @@ name: GrowStop
 version: '${version}'
 main: com.github.kaspiandev.growstop.GrowStop
 api-version: '1.19'
+permissions:
+  growstop.command.reload:
+    default: op
+commands:
+  growstop: { }
