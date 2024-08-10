@@ -1,0 +1,4 @@
+name: GrowStop
+version: '${version}'
+main: com.github.kaspiandev.growstop.GrowStop
+api-version: '1.19'
