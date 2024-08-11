@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Sapling;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockGrowEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -68,6 +70,17 @@ public class GrowListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onGrow(BlockGrowEvent event) {
         if (checkBlock(event.getBlock())) event.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onGrow(StructureGrowEvent event) {
+        Block block = event.getLocation().getBlock();
+        if (checkBlock(block)) {
+            if (block instanceof Sapling sapling) {
+                sapling.setStage(Math.max(0, sapling.getStage()) - 1);
+            }
+            event.setCancelled(true);
+        }
     }
 
     private boolean checkBlock(Block block) {

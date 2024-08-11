@@ -8,6 +8,8 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import org.bukkit.Material;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Sapling;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.StringUtil;
 
@@ -27,7 +29,10 @@ public class AddSubcommand extends SubCommand {
         this.materialNamecache = Suppliers.memoizeWithExpiration(
                 () -> Arrays.stream(Material.values())
                             .filter(Material::isBlock)
-                            .filter((material) -> material.createBlockData() instanceof Ageable)
+                            .filter((material) -> {
+                                BlockData blockData = material.createBlockData();
+                                return blockData instanceof Ageable || blockData instanceof Sapling;
+                            })
                             .filter((material) -> !plugin.isSupported(material))
                             .map(Material::name)
                             .map(String::toLowerCase)
