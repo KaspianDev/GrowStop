@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Sapling;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -69,7 +70,11 @@ public class GrowListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onGrow(BlockGrowEvent event) {
-        if (checkBlock(event.getBlock())) event.setCancelled(true);
+        Block block = event.getBlock();
+        if (block.getType().isAir()) {
+            block = block.getRelative(BlockFace.DOWN); // Special cases like SUGAR_CANE
+        }
+        if (checkBlock(block)) event.setCancelled(true);
     }
 
     @EventHandler(ignoreCancelled = true)
