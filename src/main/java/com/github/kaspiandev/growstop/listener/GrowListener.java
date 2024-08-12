@@ -39,8 +39,13 @@ public class GrowListener implements Listener {
         if (hand == null) return;
 
         Player player = event.getPlayer();
+        if (!player.hasPermission("growstop.use")) return;
+
         ItemStack item = player.getInventory().getItem(hand);
-        if (item == null || item.getType() != Material.SHEARS) return;
+        if (item == null) return;
+
+        Material type = item.getType();
+        if (type != Material.SHEARS) return;
 
         Block block = event.getClickedBlock();
         assert block != null; // Block cannot be null on RIGHT_CLICK_BLOCK
@@ -54,8 +59,19 @@ public class GrowListener implements Listener {
         Damageable meta = (Damageable) item.getItemMeta();
         assert meta != null;
 
-        meta.setDamage(meta.getDamage() + 1);
-        item.setItemMeta(meta);
+        int damage = meta.getDamage();
+        int durabilityCost = plugin.getConfig().getInt("durability-cost");
+        int newDamage = damage + durabilityCost;
+
+        int newDurability = type.getMaxDurability() - newDamage;
+        if (newDurability == 0) {
+            item.setType(Material.AIR);
+        } else if (newDurability < 0) {
+            return;
+        } else {
+            meta.setDamage(newDamage);
+            item.setItemMeta(meta);
+        }
 
         if (hand == EquipmentSlot.HAND) player.swingMainHand();
         else player.swingOffHand();

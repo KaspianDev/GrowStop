@@ -8,6 +8,10 @@ message:
   invalid-block: "&6GrowStop &7» &cThis block does not exist."
   cannot-remove: "&6GrowStop &7» &cThis block cannot be removed because it's not on the supported list."
   already-added: "&6GrowStop &7» &cThis block is already supported."
+  list: "&6GrowStop &7» &aList of supported blocks:"
+  list-element: "&7» &a${block}"
+
+durability-cost: 1
 
 supported-blocks:
   - BAMBOO

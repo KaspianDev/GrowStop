@@ -2,6 +2,7 @@ package com.github.kaspiandev.growstop.command;
 
 import com.github.kaspiandev.growstop.GrowStop;
 import com.github.kaspiandev.growstop.command.subcommand.AddSubcommand;
+import com.github.kaspiandev.growstop.command.subcommand.ListSubcommand;
 import com.github.kaspiandev.growstop.command.subcommand.ReloadSubcommand;
 import com.github.kaspiandev.growstop.command.subcommand.RemoveSubcommand;
 
@@ -26,6 +27,8 @@ public class SubCommandRegistry {
         registry.put(addSubcommand.getType().getKey(), addSubcommand);
         RemoveSubcommand removeSubcommand = new RemoveSubcommand(plugin);
         registry.put(removeSubcommand.getType().getKey(), removeSubcommand);
+        ListSubcommand listSubcommand = new ListSubcommand(plugin);
+        registry.put(listSubcommand.getType().getKey(), listSubcommand);
     }
 
     public Map<String, SubCommand> getRegistry() {

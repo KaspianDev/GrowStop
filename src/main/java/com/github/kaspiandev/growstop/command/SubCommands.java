@@ -4,7 +4,8 @@ public enum SubCommands {
 
     RELOAD("reload", "growstop.command.reload"),
     ADD("add", "growstop.command.add"),
-    REMOVE("remove", "growstop.command.remove");
+    REMOVE("remove", "growstop.command.remove"),
+    LIST("list", "growstop.command.list");
 
     private final String key;
     private final String permission;

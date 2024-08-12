@@ -5,5 +5,7 @@ api-version: '1.19'
 permissions:
   growstop.command.reload:
     default: op
+  growstop.use:
+    default: true
 commands:
   growstop: { }
