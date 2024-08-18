@@ -3,9 +3,7 @@ version: '${version}'
 main: com.github.kaspiandev.growstop.GrowStop
 api-version: '1.19'
 permissions:
-  growstop.command.reload:
+  growstop.use.*:
     default: op
-  growstop.use:
-    default: true
 commands:
   growstop: { }

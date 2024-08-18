@@ -1,7 +1,9 @@
 package com.github.kaspiandev.growstop.listener;
 
 import com.github.kaspiandev.growstop.GrowStop;
+import com.github.kaspiandev.growstop.event.GrowStopTagEvent;
 import com.jeff_media.customblockdata.CustomBlockData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -38,8 +40,15 @@ public class GrowListener implements Listener {
         EquipmentSlot hand = event.getHand();
         if (hand == null) return;
 
+        Block block = event.getClickedBlock();
+        assert block != null; // Block cannot be null on RIGHT_CLICK_BLOCK
+
+        Material blockType = block.getType();
+        if (!plugin.isSupported(blockType)) return;
+
         Player player = event.getPlayer();
-        if (!player.hasPermission("growstop.use")) return;
+        if (!player.hasPermission("growstop.use.*")
+                && !player.hasPermission("growstop.use." + blockType.name().toLowerCase())) return;
 
         ItemStack item = player.getInventory().getItem(hand);
         if (item == null) return;
@@ -47,14 +56,8 @@ public class GrowListener implements Listener {
         Material type = item.getType();
         if (type != Material.SHEARS) return;
 
-        Block block = event.getClickedBlock();
-        assert block != null; // Block cannot be null on RIGHT_CLICK_BLOCK
-        if (!plugin.isSupported(block.getType())) return;
-
         CustomBlockData blockData = new CustomBlockData(block, plugin);
         if (blockData.has(growStopKey)) return;
-
-        blockData.set(growStopKey, PersistentDataType.BOOLEAN, true);
 
         Damageable meta = (Damageable) item.getItemMeta();
         assert meta != null;
@@ -65,13 +68,23 @@ public class GrowListener implements Listener {
 
         int newDurability = type.getMaxDurability() - newDamage;
         if (newDurability == 0) {
+            GrowStopTagEvent growStopTagEvent = new GrowStopTagEvent(player);
+            Bukkit.getServer().getPluginManager().callEvent(growStopTagEvent);
+            if (growStopTagEvent.isCancelled()) return;
+
             item.setType(Material.AIR);
         } else if (newDurability < 0) {
             return;
         } else {
+            GrowStopTagEvent growStopTagEvent = new GrowStopTagEvent(player);
+            Bukkit.getServer().getPluginManager().callEvent(growStopTagEvent);
+            if (growStopTagEvent.isCancelled()) return;
+
             meta.setDamage(newDamage);
             item.setItemMeta(meta);
         }
+
+        blockData.set(growStopKey, PersistentDataType.BOOLEAN, true);
 
         if (hand == EquipmentSlot.HAND) player.swingMainHand();
         else player.swingOffHand();
