@@ -1,5 +1,7 @@
 # GrowStop
 
+![](assets/growstop.png)
+
 GrowStop is a minecraft plugin that allows you to prevent
 certain blocks from growing using shears by right clicking them.
 
